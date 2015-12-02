@@ -1,0 +1,9 @@
+#!/bin/bash
+
+GITCOMMIT=$(git rev-parse --short HEAD)
+
+cd $(dirname $0)/..
+BASEDIR=$(pwd)
+
+docker build --force-rm -t $GITCOMMIT $BASEDIR/.
+docker run -v $BASEDIR:/machine/ $GITCOMMIT /machine/scripts/package
