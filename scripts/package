@@ -19,9 +19,8 @@ function download_binary_unzip() {
     if [ ${DRIVER_BINARY_NAME: -4} == ".zip" ]; then
         unzip -o $DRIVER_BINARY_NAME -d $BASEDIR/build/
     else
-        ## Special hack for ubiquity, cos they release is not packaged as zip
+        # If the file isn't zippped
         cp $DRIVER_BINARY_NAME $BASEDIR/build/
-        ## Special hack for ubiquity, cos their release files do not have execute bit set
         chmod 0755 $BASEDIR/build/$DRIVER_BINARY_NAME
     fi
 
