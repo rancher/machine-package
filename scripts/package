@@ -30,7 +30,7 @@ function download_binary_unzip() {
 
 download_binary_unzip 'packet-driver.zip' '558a264002166868acc9d175357c12c4' 'https://github.com/packethost/docker-machine-driver-packet/releases/download/v0.1.0/docker-machine-driver-packet_linux-amd64.zip'
 download_binary_unzip 'docker-machine.zip' 'ab40b461a8940ab2aa349541a2470573' 'https://github.com/docker/machine/releases/download/v0.5.2/docker-machine_linux-amd64.zip'
-download_binary_unzip 'docker-machine-driver-ubiquity' '42683247f920c5ecf96e70535ea7f751' 'https://github.com/ubiquityhosting/docker-machine-driver-ubiquity/releases/download/v0.0.1/docker-machine-driver-ubiquity_linux-amd64.docker-machine-driver-ubiquity_linux-amd64'
+download_binary_unzip 'docker-machine-driver-ubiquity' '7fba983dfdb040311a93d217b12161d1' 'https://github.com/ubiquityhosting/docker-machine-driver-ubiquity/releases/download/v0.0.2/docker-machine-driver-ubiquity_linux-amd64'
 
 mkdir -p $BASEDIR/dist/artifacts
 
