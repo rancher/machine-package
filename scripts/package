@@ -1,38 +1,13 @@
 #!/bin/bash
+set -e -x
 
-set -e
+ARCH=${ARCH:?"ARCH not set"}
+SUFFIX=""
+[ "${ARCH}" != "amd64" ] && SUFFIX="_${ARCH}"
 
 cd $(dirname $0)/..
-BASEDIR=$(pwd)
-mkdir -p $BASEDIR/build
+BASE=$(pwd)
+export GOPATH=${BASE}/build
 
-function download_binary_unzip() {
-    DRIVER_BINARY_NAME=$1
-    DRIVER_MD5=$2
-    DRIVER_DOWNLOAD_URL=$3
-
-    if [[ $(curl -sSL $DRIVER_DOWNLOAD_URL | tee $DRIVER_BINARY_NAME | openssl md5 | sed 's/^.* //') != $DRIVER_MD5 ]]; then
-        echo 'md5 checksum is wrong for '$DRIVER_BINARY_NAME
-        exit 1
-    fi
-
-    if [ ${DRIVER_BINARY_NAME: -4} == ".zip" ]; then
-        unzip -o $DRIVER_BINARY_NAME -d $BASEDIR/build/
-    else
-        # If the file isn't zippped
-        cp $DRIVER_BINARY_NAME $BASEDIR/build/
-        chmod 0755 $BASEDIR/build/$DRIVER_BINARY_NAME
-    fi
-
-
-    rm -rf $DRIVER_BINARY_NAME
-}
-
-download_binary_unzip 'packet-driver.zip' 'cd610cd7d962dfdf88a811ec026bcdcf' 'https://github.com/packethost/docker-machine-driver-packet/releases/download/v0.1.2/docker-machine-driver-packet_linux-amd64.zip'
-download_binary_unzip 'docker-machine' '5558e5d7d003d337eacdc534c505dc5d' 'https://github.com/docker/machine/releases/download/v0.6.0/docker-machine-Linux-x86_64'
-download_binary_unzip 'docker-machine-driver-ubiquity' '7fba983dfdb040311a93d217b12161d1' 'https://github.com/ubiquityhosting/docker-machine-driver-ubiquity/releases/download/v0.0.2/docker-machine-driver-ubiquity_linux-amd64'
-
-mkdir -p $BASEDIR/dist/artifacts
-
-cd $BASEDIR/build
-tar -cvzf $BASEDIR/dist/artifacts/docker-machine.tar.gz *
+mkdir -p ./dist/artifacts
+tar -czf ./dist/artifacts/docker-machine${SUFFIX}.tar.gz -C ${GOPATH}/bin/ .

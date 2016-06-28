@@ -1,0 +1,18 @@
+FROM alpine:3.4
+# FROM arm=armhf/alpine:3.4
+
+ARG DAPPER_HOST_ARCH
+ENV HOST_ARCH=${DAPPER_HOST_ARCH} ARCH=${DAPPER_HOST_ARCH}
+
+RUN apk -U add bash gcc musl-dev go go-tools git perl linux-headers openssl util-linux
+
+ENV GOPATH=/go PATH=/go/bin:${PATH}
+
+ENV DAPPER_SOURCE /source
+ENV DAPPER_OUTPUT ./dist
+
+WORKDIR ${DAPPER_SOURCE}
+ENV SHELL /bin/bash
+
+ENTRYPOINT ["./scripts/entry"]
+CMD ["ci"]

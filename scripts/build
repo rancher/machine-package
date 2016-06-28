@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e -x
+
+cd $(dirname $0)/..
+BASE=$(pwd)
+
+export GOPATH=${BASE}/build
+
+while read -r ROOT_PKG COMMIT MAIN BINARY; do
+    GIT="https://${ROOT_PKG}.git"
+    go get ${ROOT_PKG}
+    cd ${GOPATH}/src/${ROOT_PKG}
+    git checkout ${COMMIT}
+    [ "$BINARY" == "" ] && BINARY=$(basename ${ROOT_PKG})
+    [ "$MAIN" == "" ] && MAIN="."
+    go build -a -ldflags "-linkmode external -extldflags -static -s" -o ${GOPATH}/bin/${BINARY} ${MAIN}
+done <<EOF
+github.com/docker/machine                                   v0.7.0  ./cmd   docker-machine
+github.com/packethost/docker-machine-driver-packet          v0.1.2  ./bin
+github.com/ubiquityhosting/docker-machine-driver-ubiquity   v0.0.2  ./bin
+EOF
