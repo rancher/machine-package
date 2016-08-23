@@ -29,11 +29,13 @@ function download_binary_unzip() {
 }
 
 function build_machine_binary() {
+    mkdir -p $BASEDIR/build
+    cd $BASEDIR/build
 
     MACHINE_REPOSITORY_URL=$1
     MACHINE_COMMIT_ID=$2
 
-    rm -rf machine || true
+    rm -rf machine
 
     git clone $MACHINE_REPOSITORY_URL
 
@@ -41,9 +43,7 @@ function build_machine_binary() {
     git checkout $MACHINE_COMMIT_ID
     TARGET_OS=linux TARGET_ARCH="amd64" ./script/build_in_container.sh build
     cp ./bin/docker-machine $BASEDIR/build/
-    cd ..
-
-    rm -rf machine
+    cd $BASEDIR
 }
 
 build_machine_binary 'https://github.com/docker/machine' '578cb4dc34169efef6752df0863d2fc22a8fcf3a'
