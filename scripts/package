@@ -28,8 +28,27 @@ function download_binary_unzip() {
     rm -rf $DRIVER_BINARY_NAME
 }
 
+function build_machine_binary() {
+
+    MACHINE_REPOSITORY_URL=$1
+    MACHINE_COMMIT_ID=$2
+
+    rm -rf machine || true
+
+    git clone $MACHINE_REPOSITORY_URL
+
+    cd machine
+    git checkout $MACHINE_COMMIT_ID
+    TARGET_OS=linux TARGET_ARCH="amd64" ./script/build_in_container.sh build
+    cp ./bin/docker-machine $BASEDIR/build/
+    cd ..
+
+    rm -rf machine
+}
+
+build_machine_binary 'https://github.com/docker/machine' '578cb4dc34169efef6752df0863d2fc22a8fcf3a'
+
 download_binary_unzip 'packet-driver.zip' 'cd610cd7d962dfdf88a811ec026bcdcf' 'https://github.com/packethost/docker-machine-driver-packet/releases/download/v0.1.2/docker-machine-driver-packet_linux-amd64.zip'
-download_binary_unzip 'docker-machine' 'ca79f09659ab87a432180d293f4b0ac9' 'https://github.com/docker/machine/releases/download/v0.8.1/docker-machine-Linux-x86_64'
 download_binary_unzip 'docker-machine-driver-ubiquity' '7fba983dfdb040311a93d217b12161d1' 'https://github.com/ubiquityhosting/docker-machine-driver-ubiquity/releases/download/v0.0.2/docker-machine-driver-ubiquity_linux-amd64'
 
 mkdir -p $BASEDIR/dist/artifacts
