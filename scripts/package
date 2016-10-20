@@ -57,3 +57,4 @@ mkdir -p $BASEDIR/dist/artifacts
 
 cd $BASEDIR/build
 tar -cvzf $BASEDIR/dist/artifacts/docker-machine.tar.gz *
+cp docker-machine* ../bin
