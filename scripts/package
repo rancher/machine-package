@@ -41,7 +41,7 @@ function build_machine_binary() {
 
     cd machine
     git checkout $MACHINE_COMMIT_ID
-    TARGET_OS=linux TARGET_ARCH="amd64" ./script/build_in_container.sh build
+    STATIC=true TARGET_OS=linux TARGET_ARCH="amd64" ./script/build_in_container.sh build
     cp ./bin/docker-machine $BASEDIR/build/
     cd ..
     rm -rf machine
