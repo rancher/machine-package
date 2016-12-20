@@ -48,7 +48,7 @@ function build_machine_binary() {
     cd $BASEDIR
 }
 
-build_machine_binary 'https://github.com/docker/machine' '6b5d6f1cac70a5c0cc996f276132f62c2e929e1c'
+build_machine_binary 'https://github.com/docker/machine' 'v0.9.0-rc2'
 
 download_binary_unzip 'packet-driver.zip' 'cd610cd7d962dfdf88a811ec026bcdcf' 'https://github.com/packethost/docker-machine-driver-packet/releases/download/v0.1.2/docker-machine-driver-packet_linux-amd64.zip'
 download_binary_unzip 'docker-machine-driver-ubiquity' '7fba983dfdb040311a93d217b12161d1' 'https://github.com/ubiquityhosting/docker-machine-driver-ubiquity/releases/download/v0.0.2/docker-machine-driver-ubiquity_linux-amd64'
