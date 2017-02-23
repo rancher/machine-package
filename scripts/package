@@ -50,7 +50,7 @@ function build_machine_binary() {
 
 build_machine_binary 'https://github.com/docker/machine' 'b98be6edaa53645b6f6ac5612c69fc26a993f969'
 
-download_binary_unzip 'packet-driver.zip' '14640ab357164b0d513481afebe22e702f40331af06f002476289fb9bed2fd57' 'https://github.com/packethost/docker-machine-driver-packet/releases/download/v0.1.3/docker-machine-driver-packet_linux-amd64.zip'
+download_binary_unzip 'packet-driver.zip' '7de8d0a0ae2794cfd821b69c5f412b5c' 'https://github.com/packethost/docker-machine-driver-packet/releases/download/v0.1.3/docker-machine-driver-packet_linux-amd64.zip'
 download_binary_unzip 'docker-machine-driver-ubiquity' '7fba983dfdb040311a93d217b12161d1' 'https://github.com/ubiquityhosting/docker-machine-driver-ubiquity/releases/download/v0.0.2/docker-machine-driver-ubiquity_linux-amd64'
 
 mkdir -p $BASEDIR/dist/artifacts
