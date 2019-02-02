@@ -41,7 +41,7 @@ function build_machine_binary() {
 
     cd machine
     git checkout $MACHINE_COMMIT_ID
-    TARGET_OS=linux TARGET_ARCH="amd64" ./script/build_in_container.sh build
+    TARGET_OS=linux TARGET_ARCH=${ARCH} ./script/build_in_container.sh build
     cp ./bin/docker-machine $BASEDIR/build/
     cd ..
     rm -rf machine
@@ -55,5 +55,5 @@ build_machine_binary 'https://github.com/rancher/machine' 'v0.15.0-rancher5'
 mkdir -p $BASEDIR/dist/artifacts
 
 cd $BASEDIR/build
-tar -cvzf $BASEDIR/dist/artifacts/docker-machine.tar.gz *
+tar -cvzf $BASEDIR/dist/artifacts/docker-machine-${ARCH}.tar.gz docker-machine
 cp docker-machine* ../bin
