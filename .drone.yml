@@ -1,7 +1,40 @@
-pipeline:
-  build:
-    privileged: true
-    image: rancher/dind:v1.10.0-rancher1
-    commands:
-      - wrapdocker
-      - make ci
+---
+kind: pipeline
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: build
+  pull: default
+  image: rancher/dapper:v0.4.1
+  commands:
+  - dapper ci
+  volumes:
+  - name: docker
+    path: /var/run/docker.sock
+
+- name: github_binary_release
+  image: drone/github-release
+  settings:
+    api_key:
+      from_secret: github_token
+    checksum:
+    - sha256
+    files:
+    - "dist/artifacts/*"
+  when:
+    instance:
+    - drone-publish.rancher.io
+    ref:
+    - refs/head/master
+    - refs/tags/*
+    event:
+    - tag
+
+volumes:
+- name: docker
+  host:
+    path: /var/run/docker.sock
